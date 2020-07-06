@@ -8,7 +8,7 @@
     <div class="container">
 
         {% for product in products %}
-            <a href="{% url 'products-details' product.pk %}"><h1>{{ product.title }}</h1></a>
+            <a href="{% url 'products-details' product.slug %}"><h1>{{ product.title }}</h1></a>
             <p>{{ product.description }}</p>
             <p>{{ product.price }}</p>
             {% if product.image %}
