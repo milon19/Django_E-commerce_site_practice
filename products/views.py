@@ -1,4 +1,13 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView, DetailView
+from .models import Product
 
-class TestView(TemplateView):
+class ProductListView(ListView):
+    model = Product
     template_name = 'products/products-list.html'
+    context_object_name = 'products'
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'products/products-details.html'
+    context_object_name = 'product'

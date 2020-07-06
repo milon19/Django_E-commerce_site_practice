@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>All Products</title>
+{% endblock %}
+
+{% block contain %}
+    <div class="container">
+        <h1>{{ product.title }} Detail View</h1>
+        <a href="#"><h1>{{ product.title }}</h1></a>
+        <p>{{ product.description }}</p>
+        <p>{{ product.price }}</p>
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="">
+        {% endif %}
+        <a href="{% url 'products-list' %}">Back</a>
+        <br>
+    </div>
+{% endblock %}

@@ -6,6 +6,15 @@
 
 {% block contain %}
     <div class="container">
-        <h3>All products</h3>
+
+        {% for product in products %}
+            <a href="{% url 'products-details' product.pk %}"><h1>{{ product.title }}</h1></a>
+            <p>{{ product.description }}</p>
+            <p>{{ product.price }}</p>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="">
+            {% endif %}
+        {% endfor %}
+        <br>
     </div>
 {% endblock %}
