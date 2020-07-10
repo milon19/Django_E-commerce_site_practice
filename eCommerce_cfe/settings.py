@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'users',
     'core',
     'products',
+    'search',
+
 ]
 
 MIDDLEWARE = [

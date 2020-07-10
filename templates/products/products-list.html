@@ -6,12 +6,12 @@
 
 {% block contain %}
     <div class="container">
-    <div class="row">
-        {% for product in products %}
-                <div class="col-lg-4">
-                    {% include 'products/snippets/product-card.html' with product=product %}
-                </div>
-        {% endfor %}
-    </div>
+        <div class="row">
+            {% for product in products %}
+                    <div class="col-lg-4">
+                        {% include 'products/snippets/product-card.html' with product=product %}
+                    </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

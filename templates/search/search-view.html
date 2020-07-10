@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Search Product</title>
+{% endblock %}
+
+{% block contain %}
+    <div class="container">
+        <div class="row mb-3">
+            {% if query  %}
+                <div class="col-12 mb-3">
+                    <div class="col-12 col-md-8 mx-auto py-5">
+                        {% include 'search/snippets/search-input.html' %}
+                    </div>
+                    <b>Results for {{ request.GET.q }} </b><br>
+                    <hr>
+                </div>
+            {% else %}
+                <div class="col-12 mb-3">
+                    <div class="col-12 col-md-8 mx-auto py-5">
+                        {% include 'search/snippets/search-input.html' with query=query%}
+                    </div>
+                    <b>Featured Products:</b>
+                    <hr>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            {% for product in products %}
+                    <div class="col-lg-4">
+                        {% include 'products/snippets/product-card.html' with product=product %}
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
