@@ -6,15 +6,12 @@
 
 {% block contain %}
     <div class="container">
-
+    <div class="row">
         {% for product in products %}
-            <a href="{% url 'products-details' product.slug %}"><h1>{{ product.title }}</h1></a>
-            <p>{{ product.description }}</p>
-            <p>{{ product.price }}</p>
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="">
-            {% endif %}
+                <div class="col-lg-4">
+                    {% include 'products/snippets/product-card.html' with product=product %}
+                </div>
         {% endfor %}
-        <br>
+    </div>
     </div>
 {% endblock %}
