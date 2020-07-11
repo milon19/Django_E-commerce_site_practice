@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from .managers import ProductManager
 from .utils import *
 
 class Product(models.Model):
@@ -10,6 +11,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     featured = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+
+    objects = ProductManager()
 
     def __str__(self):
         return self.title
