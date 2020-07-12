@@ -28,4 +28,5 @@ class ProductManager(models.Manager):
         return self.get_queryset().featured()
 
     def search(self, query):
+        # noinspection PyUnresolvedReferences
         return self.get_queryset().active().search(query)
