@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+
 class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
@@ -19,3 +20,7 @@ class UserRegistrationForm(UserCreationForm):
         if User.objects.filter(email=self.cleaned_data['email']).exists():
             raise ValidationError('Existed')
         return self.cleaned_data['email']
+
+
+class GuestForm(forms.Form):
+    email = forms.EmailField()

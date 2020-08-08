@@ -14,6 +14,9 @@
                 </div>
                 <div class="col-12 col-md-6">
                     Continue as Guest
+                    {% url 'guest_register' as guest_register_url %}
+                    {% include 'carts/snippets/login_form.html' with form=guest_form next=request.path action_url=guest_register_url %}
+
                 </div>
             </div>
 
