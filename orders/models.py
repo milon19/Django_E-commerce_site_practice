@@ -13,6 +13,8 @@ ORDER_STATUS_CHOICES = (
 
 
 class Order(models.Model):
+    # billing_profile = ?
+    # shipping_address = ?
     order_id = models.CharField(max_length=120, blank=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     status = models.CharField(max_length=120, choices=ORDER_STATUS_CHOICES)
