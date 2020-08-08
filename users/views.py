@@ -6,9 +6,9 @@ from .forms import UserRegistrationForm
 
 
 class LoginView(SuccessMessageMixin, LoginView):
-    redirect_authenticated_user = True
     template_name = 'users/login.html'
     success_message = 'You are successfully logged in'
+
 
 
 class LogoutView(LogoutView):

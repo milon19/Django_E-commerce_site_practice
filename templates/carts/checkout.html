@@ -6,9 +6,23 @@
 
 {% block contain %}
     <div class="container">
-        <h1>Checkout</h1>
-        <p>Cart Total: {{ object.cart.total }}</p>
-        <p>Shopping Total: {{ object.shipping_total}}</p>
-        <p>Order Total: {{ object.total}}</p>
+        {% if not billing_profile %}
+            <div class="row text-center">
+                <div class="col-12 col-md-6">
+                    <p class="lead">Login</p>
+                    {% include 'carts/snippets/login_form.html' with form=login_form next=request.path %}
+                </div>
+                <div class="col-12 col-md-6">
+                    Continue as Guest
+                </div>
+            </div>
+
+        {% else %}
+            <h1>Checkout</h1>
+            <p>Cart Total: {{ object.cart.total }}</p>
+            <p>Shopping Total: {{ object.shipping_total}}</p>
+            <p>Order Total: {{ object.total}}</p>
+        {% endif %}
+
     </div>
 {% endblock %}
