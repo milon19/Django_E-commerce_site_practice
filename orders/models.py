@@ -4,6 +4,8 @@ from carts.models import Cart
 from django.db.models.signals import pre_save, post_save
 from .utils import unique_order_id_generator
 
+from billing.models import BillingProfile
+
 ORDER_STATUS_CHOICES = (
     ('created', 'Created'),
     ('paid', 'Paid'),
@@ -13,13 +15,14 @@ ORDER_STATUS_CHOICES = (
 
 
 class Order(models.Model):
-    # billing_profile = ?
+    billing_profile = models.ForeignKey(BillingProfile, null=True, blank=True, on_delete=models.CASCADE)
     # shipping_address = ?
     order_id = models.CharField(max_length=120, blank=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     status = models.CharField(max_length=120, choices=ORDER_STATUS_CHOICES)
     shipping_total = models.DecimalField(default=9.99, max_digits=100, decimal_places=2)
     total = models.DecimalField(default=0, max_digits=100, decimal_places=2)
+    active = models.BooleanField(default=True)
 
     def update_total(self):
         cart_total = self.cart.total

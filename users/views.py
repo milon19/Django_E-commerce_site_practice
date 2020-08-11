@@ -7,9 +7,17 @@ from django.utils.http import is_safe_url
 from django.shortcuts import redirect, render
 from .models import GuestEmail
 
+
 class LoginView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.html'
     success_message = 'You are successfully logged in'
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            del request.session['guest_email_id']
+        except:
+            pass
+        return super().dispatch(request, *args, **kwargs)
 
 
 class LogoutView(LogoutView):
@@ -27,7 +35,7 @@ class RegisterView(SuccessMessageMixin, CreateView):
 def guest_register_view(request):
     form = GuestForm(request.POST or None)
     context = {
-        'form':form,
+        'form': form,
     }
     next_ = request.GET.get('next')
     next_post = request.POST.get('next')
@@ -37,7 +45,6 @@ def guest_register_view(request):
         email = form.cleaned_data.get('email')
         new_guest_email = GuestEmail.objects.create(email=email)
         request.session['guest_email_id'] = new_guest_email.id
-        print(new_guest_email)
         if is_safe_url(redirect_path, request.get_host()):
             return redirect(redirect_path)
         else:
