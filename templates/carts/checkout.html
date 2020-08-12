@@ -22,10 +22,31 @@
             </div>
 
         {% else %}
-            <h1>Checkout</h1>
-            <p>Cart Total: {{ object.cart.total }}</p>
-            <p>Shopping Total: {{ object.shipping_total}}</p>
-            <p>Order Total: {{ object.total}}</p>
+            {% if not object.shipping_address %}
+                <div class="row">
+                    <div class="col-md-6 mx-auto col-10">
+                        <p class="lead">Shipping Address</p>
+                        <hr>
+                        {% url 'checkout_address_create' as checkout_address_create %}
+                        {% include 'addresses/form.html' with form=address_form next=request.path action_url=checkout_address_create address_type='shipping'%}
+                    </div>
+                </div>
+            {% elif not object.billing_address %}
+                <div class="row">
+                    <div class="col-md-6 mx-auto col-10">
+                        <p class="lead">Bolling Address</p>
+                        <hr>
+                        {% url 'checkout_address_create' as checkout_address_create %}
+                        {% include 'addresses/form.html' with form=address_form next=request.path action_url=checkout_address_create address_type='billing'%}
+                    </div>
+                </div>
+            {% else %}
+                <h1>Finalize Checkout</h1>
+                <p>Cart Total: {{ object.cart.total }}</p>
+                <p>Shopping Total: {{ object.shipping_total}}</p>
+                <p>Order Total: {{ object.total}}</p>
+                <button>Check out</button>
+            {% endif %}
         {% endif %}
 
     </div>
