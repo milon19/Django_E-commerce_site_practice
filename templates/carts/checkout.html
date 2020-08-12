@@ -22,9 +22,12 @@
             </div>
 
         {% else %}
+            {{ object.shipping_address }}
+            {{ object.billing_address }}
             {% if not object.shipping_address %}
                 <div class="row">
                     <div class="col-md-6 mx-auto col-10">
+
                         <p class="lead">Shipping Address</p>
                         <hr>
                         {% url 'checkout_address_create' as checkout_address_create %}
