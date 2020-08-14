@@ -9,7 +9,7 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'products-list' %}">Products</a></li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart-home' %}">
-                        {{ request.session.cart_items }} <i class="fa fa-shopping-cart"></i>
+                        <span class="navbar-cart-count">{{ request.session.cart_items }}</span> <i class="fa fa-shopping-cart"></i>
                     </a>
                 </li>
             </ul>

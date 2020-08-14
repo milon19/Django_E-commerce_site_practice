@@ -37,9 +37,83 @@
 
 
         {% include 'snippets/footer.html' %}
-
-        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="{% static 'js/popper.min.js' %}" ></script>
         <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+
+        <script>
+            $(document).ready(function (){
+                var productForm = $('.product-ajax')
+                productForm.submit(function (event){
+                    event.preventDefault();
+                    var thisForm = $(this)
+                    // var actionEndPoint = thisForm.attr('action');
+                    var actionEndPoint = thisForm.attr('data-endpoint');
+                    var httpMethod = thisForm.attr('method');
+                    var formData = thisForm.serialize();
+
+                    $.ajax({
+                        url: actionEndPoint,
+                        method: httpMethod,
+                        data: formData,
+                        success: function (data){
+                            var submitSpan = thisForm.find('.submit-span')
+                            if(data.added){
+                                submitSpan.html('In cart <button type="submit" class=\'btn btn-link\'>Remove?</button>')
+                            }else{
+                                submitSpan.html('<button type="submit" class=\'btn btn-success\'>Add to cart</button>')
+                            }
+                            var navbarCount = $('.navbar-cart-count')
+                            navbarCount.text(data.cartItemCount)
+                            var currentPath = window.location.href
+                            if(currentPath.indexOf('cart') != -1){
+                                refreshCart()
+                            }
+                        },
+                        error: function (errorData){
+                            console.log("Error")
+                            console.log(errorData)
+                        }
+                    })
+                })
+
+                function refreshCart(){
+                    console.log('in current cart')
+                    var cartTable = $('.cart-table')
+                    var cartBody = cartTable.find('.cart-body')
+                    var productRows = cartBody.find('.cart-product')
+                    var currentUrl = window.location.href
+
+                    {#cartBody.html('<h1>Changed</h1>')#}
+                    var refreshCartUrl;
+                    var refreshCartMethod = 'GET';
+                    var data = {};
+                    $.ajax({
+                        url: refreshCartUrl = 'api/cart/',
+                        method: refreshCartMethod,
+                        data: data,
+                        success: function (data){
+                            console.log('success')
+                            console.log(data)
+                            if(data.products.length > 0){
+                                productRows.html('')
+                                i = 1
+                                $.each(data.products, function (index, value){
+                                    cartBody.prepend('<tr><th scope=\"row\">' + i + '</th><td>' + value.title + '</td>' + '<td>' + value.price + '</td></tr>')
+                                    i++
+                                })
+                                cartBody.find('.cart-subtotal').text(data.subtotal)
+                            } else{
+                                window.location.href = currentUrl
+                            }
+                        },
+                        error: function (errorData){
+                            console.log('error')
+                        }
+
+                    })
+                }
+            })
+        </script>
     </body>
 </html>
