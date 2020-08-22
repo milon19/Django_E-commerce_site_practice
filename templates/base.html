@@ -12,7 +12,10 @@
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'style.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-{#        <script src="https://kit.fontawesome.com/e0bdb99948.js" crossorigin="anonymous"></script>#}
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+        {#        <script src="https://kit.fontawesome.com/e0bdb99948.js" crossorigin="anonymous"></script>#}
     </head>
 
     <body class="d-flex flex-column h-100">
@@ -40,6 +43,8 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="{% static 'js/popper.min.js' %}" ></script>
         <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+        <!---Jquery Confirm --->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
         <script>
             $(document).ready(function (){
@@ -102,8 +107,11 @@
                             }
                         },
                         error: function (errorData){
-                            console.log("Error")
-                            console.log(errorData)
+                            $.alert({
+                                title: 'Opps!',
+                                content: 'An Error occurred',
+                                theme: 'modern',
+                            })
                         }
                     })
                 })
@@ -144,11 +152,15 @@
                                 })
                                 cartBody.find('.cart-subtotal').text(data.subtotal)
                             } else{
-                                window.location.href = currentUrl
+                                window.location.href = currentUrl;
                             }
                         },
                         error: function (errorData){
-                            console.log('error')
+                            $.alert({
+                                title: 'Opps!',
+                                content: 'An Error occurred',
+                                theme: 'modern',
+                            })
                         }
 
                     })
