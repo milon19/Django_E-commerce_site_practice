@@ -14,6 +14,7 @@ ORDER_STATUS_CHOICES = (
     ('refunded', 'Refunded'),
 )
 
+
 class OrderManager(models.Manager):
     def new_or_get(self, billing_profile, cart_obj):
         created = False
@@ -27,10 +28,13 @@ class OrderManager(models.Manager):
             created = True
         return obj, created
 
+
 class Order(models.Model):
     billing_profile = models.ForeignKey(BillingProfile, null=True, blank=True, on_delete=models.CASCADE)
-    shipping_address = models.ForeignKey(Address, related_name='shipping_address', null=True, blank=True, on_delete=models.CASCADE)
-    billing_address = models.ForeignKey(Address, related_name='billing_address', null=True, blank=True, on_delete=models.CASCADE)
+    shipping_address = models.ForeignKey(Address, related_name='shipping_address', null=True, blank=True,
+                                         on_delete=models.CASCADE)
+    billing_address = models.ForeignKey(Address, related_name='billing_address', null=True, blank=True,
+                                        on_delete=models.CASCADE)
     order_id = models.CharField(max_length=120, blank=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     status = models.CharField(max_length=120, choices=ORDER_STATUS_CHOICES, default='created')
@@ -54,7 +58,7 @@ class Order(models.Model):
         shipping_address = self.shipping_address
         billing_address = self.billing_address
         total = self.total
-        if billing_profile and shipping_address and billing_address and total>0:
+        if billing_profile and shipping_address and billing_address and total > 0:
             return True
         return False
 
@@ -84,10 +88,11 @@ def post_save_cart_total(sender, instance, created, *args, **kwargs):
         cart_obj = instance
         cart_total = cart_obj.total
         cart_id = cart_obj.id
-        qs = Order.objects.filter(cart__id = cart_id)
+        qs = Order.objects.filter(cart__id=cart_id)
         if qs.count() == 1:
             order_obj = qs.first()
             order_obj.update_total()
+
 
 post_save.connect(post_save_cart_total, sender=Cart)
 
@@ -95,5 +100,6 @@ post_save.connect(post_save_cart_total, sender=Cart)
 def post_save_order(sender, instance, created, *args, **kwargs):
     if created:
         instance.update_total()
+
 
 post_save.connect(post_save_order, sender=Order)
