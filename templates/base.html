@@ -48,6 +48,66 @@
 
         <script>
             $(document).ready(function (){
+                //Contact Form
+                var contactForm = $('.contact-form')
+                var contactFormMethod = contactForm.attr('method')
+                var contactFormEndpoint = contactForm.attr('action')
+
+                function contactSubmitting(isSubmit, text, submitBtn){
+                    if(isSubmit){
+                        submitBtn.addClass('disabled');
+                        submitBtn.html("<i class=\"fa fa-spinner fa-spin\"></i> Sending...");
+                    } else {
+                        submitBtn.removeClass('disabled');
+                        submitBtn.html(text);
+                    }
+                }
+
+                contactForm.submit(function (event){
+                    event.preventDefault();
+
+                    var contactFormSubmitBtn = contactForm.find("[type='submit']")
+                    var contactFormSubmitBtnTxt = contactFormSubmitBtn.text()
+
+                    var contactFormData = contactForm.serialize()
+                    var thisForm = $(this)
+
+                    contactSubmitting(true, "", contactFormSubmitBtn)
+
+                    $.ajax({
+                        method: contactFormMethod,
+                        url: contactFormEndpoint,
+                        data: contactFormData,
+                        success: function (data){
+                            contactForm[0].reset()
+                            $.alert({
+                                title: 'Success!',
+                                content: data.message,
+                                theme: 'modern',
+                            })
+                            setTimeout(function (){
+                                contactSubmitting(false, contactFormSubmitBtnTxt, contactFormSubmitBtn)
+                            }, 1000)
+                        },
+                        error: function (errorData){
+                            var jsonData = errorData.responseJSON
+                            var msg = ''
+
+                            $.each(jsonData, function(key, value){
+                                msg += key + ": " + value[0].message + '<br/>'
+                            })
+                            $.alert({
+                                title: 'Opps!',
+                                content: msg,
+                                theme: 'modern',
+                            })
+                            setTimeout(function (){
+                                contactSubmitting(false, contactFormSubmitBtnTxt, contactFormSubmitBtn)
+                            }, 1000)
+                        },
+                    })
+                })
+
                 // Auto Search
                 var searchForm = $('.search-form')
                 var searchInput = searchForm.find('[name="q"]')
