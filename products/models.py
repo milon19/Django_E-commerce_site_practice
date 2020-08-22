@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from django.urls import reverse
+
 from .managers import ProductManager
 from .utils import *
 
@@ -13,6 +15,9 @@ class Product(models.Model):
     active = models.BooleanField(default=True)
 
     objects = ProductManager()
+
+    def get_absolute_url(self):
+        return reverse("products-details", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.title

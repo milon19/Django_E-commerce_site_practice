@@ -7,6 +7,12 @@ class ProductListView(ListView):
     template_name = 'products/products-list.html'
     context_object_name = 'products'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        cart_obj, new_obj = Cart.objects.new_or_get(self.request)
+        context['cart'] = cart_obj
+        return context
+
 
 class ProductDetailView(DetailView):
     model = Product

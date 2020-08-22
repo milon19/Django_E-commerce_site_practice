@@ -11,5 +11,6 @@
         </a>
         <p class="card-text">{{ product.discription }}</p>
         <a href="{% url 'products-details' product.slug %}" class="btn btn-primary">View Product</a>
+        {% include 'products/snippets/update-cart.html' with product=product cart=cart %}
     </div>
 </div>

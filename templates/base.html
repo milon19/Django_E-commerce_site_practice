@@ -85,22 +85,31 @@
                     var currentUrl = window.location.href
 
                     {#cartBody.html('<h1>Changed</h1>')#}
-                    var refreshCartUrl;
+                    var refreshCartUrl = 'api/cart/';
                     var refreshCartMethod = 'GET';
                     var data = {};
                     $.ajax({
-                        url: refreshCartUrl = 'api/cart/',
+                        url: refreshCartUrl,
                         method: refreshCartMethod,
                         data: data,
                         success: function (data){
-                            console.log('success')
-                            console.log(data)
+
+                            var hiddenCartRemoveForm = $('.cart-item-remove-form')
                             if(data.products.length > 0){
                                 productRows.html('')
-                                i = 1
+                                i = data.products.length
                                 $.each(data.products, function (index, value){
-                                    cartBody.prepend('<tr><th scope=\"row\">' + i + '</th><td>' + value.title + '</td>' + '<td>' + value.price + '</td></tr>')
-                                    i++
+                                    var newCartItemRemove = hiddenCartRemoveForm.clone()
+                                    newCartItemRemove.css('display', 'block')
+                                    newCartItemRemove.find('.cart-product-id').val(value.id)
+                                    cartBody.prepend(
+                                        '<tr>' +
+                                        '<th scope=\"row\">' + i + "</th>" +
+                                        "<td><a href='" + value.url + "'>" + value.title + '</a>' + newCartItemRemove.html() + '</td>' +
+                                        '<td>' + value.price + '</td>' +
+                                        '</tr>'
+                                    )
+                                    i--
                                 })
                                 cartBody.find('.cart-subtotal').text(data.subtotal)
                             } else{
