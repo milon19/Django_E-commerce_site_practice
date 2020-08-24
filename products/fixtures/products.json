@@ -1,0 +1,54 @@
+[
+{
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+        "title": "T-shirt",
+        "slug": "tshirt1",
+        "description": "This is a very nice t-shirt",
+        "price": "12.00",
+        "image": "products/3187949322.jpg",
+        "featured": true,
+        "active": true
+    }
+},
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "Cap",
+        "slug": "cap-1",
+        "description": "Cap Cap cap cap",
+        "price": "10.00",
+        "image": "",
+        "featured": false,
+        "active": true
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "Mobile",
+        "slug": "mobile",
+        "description": "Samsung Galaxy A30",
+        "price": "230000.00",
+        "image": "products/3054486334.jpg",
+        "featured": false,
+        "active": true
+    }
+},
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "title": "Black Hat for Men",
+        "slug": "black-hat-for-men",
+        "description": "Product Type: Cap\r\nColor: Black And White\r\nMain Material: Cotton\r\nGender: Men\r\nTrendy design\r\nStyle: Casual",
+        "price": "200.00",
+        "image": "products/3023479664.jpg",
+        "featured": false,
+        "active": true
+    }
+}
+]
