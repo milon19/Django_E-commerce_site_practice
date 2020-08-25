@@ -42,5 +42,5 @@ class ProductDetailView(DetailView):
         except:
             raise Http404('Uhhhmmmu')
 
-        object_viewed_signal.send(instance.__class__, instance=instance, request=request)
+        # object_viewed_signal.send(instance.__class__, instance=instance, request=request)
         return instance
