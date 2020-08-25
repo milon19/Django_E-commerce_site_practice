@@ -6,7 +6,7 @@ from .forms import UserRegistrationForm, GuestForm
 from django.utils.http import is_safe_url
 from django.shortcuts import redirect, render
 from .models import GuestEmail
-
+from .signals import user_logged_in
 
 class LoginView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.html'
@@ -18,6 +18,14 @@ class LoginView(SuccessMessageMixin, LoginView):
         except:
             pass
         return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form = super(LoginView, self).form_valid(form)  # Complete the Login Task First.
+        request = self.request
+        user = request.user  # Then get the uses
+        user_logged_in.send(user.__class__, instance=user, request=request)
+        # print(user)
+        return form
 
 
 class LogoutView(LogoutView):
