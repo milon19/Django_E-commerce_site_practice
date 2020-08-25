@@ -2,7 +2,7 @@ from django.http import Http404
 from django.views.generic import ListView, DetailView
 from .models import Product
 from carts.models import Cart
-from analytics.signals import object_viewed_signal
+from analytics.maxins import ObjectViewedMixin
 
 
 class ProductListView(ListView):
@@ -17,7 +17,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(ObjectViewedMixin, DetailView):
     model = Product
     template_name = 'products/products-details.html'
     context_object_name = 'product'
